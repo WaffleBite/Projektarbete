@@ -64,28 +64,52 @@ namespace Projektarbete
 
         private static void Fire()
         {
-            bool isValidCode = true;
+            bool isValidCode = false;
 
-            int securityCode = 1234;
+            
 
             while (!isValidCode)
             {
+                Console.Clear();
                 Console.WriteLine("Security code: ");
-
+                int securityCode = int.Parse(Console.ReadLine());
                 if (securityCode == 1234)
                 {
                     isValidCode = true;
+                    foreach (var target in context.Target)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Attacking targets:")
+                        target.TryAttack();
+                        string result = target.IsDestroyed == true ? "Träff" : "Miss";
+
+                        Console.WriteLine($"{target.Name}\tStatus: {result}");
+
+                    }
+                    context.SaveChanges();
+                    Console.ReadKey();
                 }
                 else
                 {
                     Console.WriteLine("Denied");
+                    Console.ReadKey();
+                }
+                if (isValidCode) 
+                {
+           
                 }
             }
         }
 
         private static void ListAttacks()
         {
-            throw new NotImplementedException();
+            Console.Clear();
+            foreach (var target in context.Target)
+            {
+                if (target == null) continue;
+                Console.WriteLine($"{target.Name}\t{target.Description}\t\t{target.XCoordinate}.{target.YCoordinate}.{target.ZCoordinate}");
+            }
+            Console.ReadKey();
         }
 
         private static void AddCoordinates()
@@ -93,6 +117,7 @@ namespace Projektarbete
             bool isCorrect = false;
             do
             {
+                Console.Clear();
                 Console.SetCursorPosition(3, 1);
                 Console.WriteLine("Name of the missile: ");
 
@@ -126,7 +151,7 @@ namespace Projektarbete
                 Console.SetCursorPosition("Z: ".Length + 4, 8);
                 int zCoordinate = int.Parse(Console.ReadLine());
 
-
+                Target newtarget = new Target(name, description, xCoordinate, yCoordinate, zCoordinate);
                 Console.WriteLine("\nDo you want to add this target? [Y]es  [N]o");
 
                 ConsoleKeyInfo keyPressed;
@@ -138,17 +163,25 @@ namespace Projektarbete
                     keyPressed = Console.ReadKey(true);
 
                     isValidKey = keyPressed.Key == ConsoleKey.J ||
-                                 keyPressed.Key == ConsoleKey.N;
+                                 keyPressed.Key == ConsoleKey.N || 
+                                 keyPressed.Key == ConsoleKey.Y;
 
                 } while (!isValidKey);
 
                 if (keyPressed.Key == ConsoleKey.J)
                 {
-                    //lägg till i listan med targets (targetList)
+                    context.Target.Add(newtarget);
+                    context.SaveChanges();
+                    isCorrect = true;
+                }
+                else if(keyPressed.Key == ConsoleKey.Y) 
+                {
+                    context.Target.Add(newtarget);
+                    context.SaveChanges();
+                    isCorrect = true;
                 }
             } while (!isCorrect);
 
-            Console.ReadKey();
-        }
+                   }
     }
 }
