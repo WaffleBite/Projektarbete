@@ -101,6 +101,7 @@ namespace Projektarbete
             bool isCorrect = false;
             do
             {
+                Console.Clear();
                 Console.SetCursorPosition(3, 1);
                 Console.WriteLine("Name of the missile: ");
 
@@ -163,6 +164,7 @@ namespace Projektarbete
                     context.Target.Add(target);
 
                     context.SaveChanges();
+                    isCorrect = true;
                 }
             } while (!isCorrect);
         }
