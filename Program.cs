@@ -2,6 +2,7 @@
 using Projektarbete.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Projektarbete
 {
@@ -93,7 +94,15 @@ namespace Projektarbete
 
         private static void ListAttacks()
         {
-            
+            List<Target> targetList = context.Target.ToList();
+            Console.Write("Name".PadRight(15, ' '));
+            Console.WriteLine("Description"); 
+            Console.WriteLine("........................................................");
+            foreach (Target target in targetList)
+            {
+                Console.WriteLine($"{ target.Name.PadRight(15, ' ')}{target.Description}");
+            }
+            Console.ReadKey();
         }
 
         private static void AddCoordinates()
