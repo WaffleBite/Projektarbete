@@ -44,13 +44,6 @@ namespace Projektarbete.Domain.Models
             ZCoordinate = zCoordinate;
         }
 
-        public bool TryAlgo()
-        {
-            int rnd = new Random().Next(1, 11);
-
-            return (rnd < 7);
-        }
-
         public void TryAttack()
         {
             int rnd = new Random().Next(1, 11);

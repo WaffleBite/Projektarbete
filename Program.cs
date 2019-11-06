@@ -9,10 +9,10 @@ namespace Projektarbete
     {
         static ProjektarbeteContext context = new ProjektarbeteContext();
 
+        static List<Target> targetList = new List<Target>();
+
         static void Main(string[] args)
         {
-            List<Target> targetList = new List<Target>();
-
             Console.ForegroundColor = ConsoleColor.Cyan;
 
             bool isRunning = true;
@@ -81,11 +81,19 @@ namespace Projektarbete
                     Console.WriteLine("Denied");
                 }
             }
+
+            if(isValidCode)
+            {
+                foreach (Target target in context.Target)
+                {
+                    target.TryAttack();
+                }
+            }
         }
 
         private static void ListAttacks()
         {
-            throw new NotImplementedException();
+            
         }
 
         private static void AddCoordinates()
@@ -144,11 +152,19 @@ namespace Projektarbete
 
                 if (keyPressed.Key == ConsoleKey.J)
                 {
-                    //lägg till i listan med targets (targetList)
+                    Target target = new Target(
+                            name,
+                            description,
+                            xCoordinate,
+                            yCoordinate,
+                            zCoordinate
+                            );
+
+                    context.Target.Add(target);
+
+                    context.SaveChanges();
                 }
             } while (!isCorrect);
-
-            Console.ReadKey();
         }
     }
 }
